@@ -1,20 +1,19 @@
 package com.ebay.tests;
 
-import com.ebay.tests.pages.ElectronicsEbayPage;
-import com.ebay.tests.pages.ResultPage;
-import com.ebay.tests.pages.SmartphoneAndAccessoriesPage;
-import com.ebay.tests.pages.StartEbayPage;
+
+import com.ebay.pages.ResultPage;
+import com.ebay.pages.SmartphoneAndAccessoriesPage;
+import com.ebay.pages.StartEbayPage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import utils.BrowserSelection;
 
 import java.util.logging.Logger;
 
 public class SearchByCategoryTest {
-
-    private static final String URL_PAGE_OF_ELECTRONIC = "https://by.ebay.com/b/Cell-Phones-Smart-Watches-Accessories/15032/bn_1865441";
 
     private static Logger log ;
     private static WebDriver driver;
@@ -22,15 +21,18 @@ public class SearchByCategoryTest {
 
     /**initialization driver */
     @BeforeTest
-    public static void setUp() {
-        driver = new ChromeDriver();//initialization driver
+    public static void setUp() throws Exception {
+        driver = BrowserSelection.selectBrowser();
         driver.manage().window().maximize();
         driver.get("https://www.ebay.com/");
         log = Logger.getLogger("new logger");
+
+
     }
 
 
     @Test
+    @Parameters("browser")
     public void searchViolin() {
 
         //Start page
@@ -38,11 +40,9 @@ public class SearchByCategoryTest {
 
         StartEbayPage startEbayPage = new StartEbayPage(driver);
         startEbayPage.searchTab(driver);
-
-
         log.info("search “smartphone and accessories”, click it and open new page ");
-        ElectronicsEbayPage electronicsEbayPage =  new ElectronicsEbayPage(driver);
-        electronicsEbayPage.clickSmartphoneAndAccesories();
+        startEbayPage.clickCategory(driver);
+
 
         log.info("check whats page was open ");
         SmartphoneAndAccessoriesPage smartphoneAndAccessoriesPage =  new SmartphoneAndAccessoriesPage(driver);
